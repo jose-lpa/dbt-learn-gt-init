@@ -34,6 +34,12 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   jaffle_shop:
-    +materialized: view
-
+    staging:
+      # Everything in the `staging` directory should be only a view, and don't be materialised as a
+      # table, so we save operational costs because we don't need staging data to be tables.
+      +materialized: view
+    marts:
+      # Everything in `marts` directory are final data models that are exposed to BI tools and other
+      # clients/users applications, so they need to be a table.
+      +materialized: table
     
